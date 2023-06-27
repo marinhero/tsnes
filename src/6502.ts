@@ -10,7 +10,6 @@
 // Comparison
 // Branching
 
-
 const MAX_MEMORY = 1024 * 64
 
 type Byte = string
@@ -70,4 +69,3 @@ let chip: SixFiveZeroTwo = {
 }
 
 console.log("A CPU in isolation", chip)
-
