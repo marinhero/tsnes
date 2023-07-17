@@ -4,7 +4,8 @@ import { Logger } from "./logger.ts"
 const main = () => {
   const l = new Logger()
   l.log('Chime')
-  new Chip6502()
+  const cpu = new Chip6502()
+  l.log(cpu.showStatus())
 }
 
 main()

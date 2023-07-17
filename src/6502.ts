@@ -21,6 +21,8 @@ type Byte = number // 8 bits
 type Word = number // 16 bits
 type Register = Byte // 8 bits
 
+type StatusFormat = 'FULL' | 'COMPACT'
+
 // Flags bits
 export const CARRY_FLAG = 0 // Carry
 export const ZERO_FLAG = 1 // Zero
@@ -87,21 +89,32 @@ export class Chip6502 implements SixFiveZeroTwo {
         this.accumulator = 0
         this.registerX = 0
         this.registerY = 0
-        this.status = 0
+        this.status = 1 << 5
         this.memory = new Array(MAX_MEMORY).fill(0)
-
-        this.logger.log('BOOT')
     }
 
     setFlag(bit: number, value: boolean) {
         if (value) {
-            this.status |= (1 << bit);
+            // To set a bit inside the status
+            this.status |= (1 << bit)
         } else {
-            this.status &= ~(1 << bit);
+            // To clear a bit inside the status
+            this.status &= ~(1 << bit) // Negate to keep all the bits.
         }
     }
 
     isFlagSet(bit: number): boolean {
-        return (this.status & (1 << bit)) !== 0;
+        return (this.status & (1 << bit)) !== 0
+    }
+
+    showStatus(format: StatusFormat = 'COMPACT'): string {
+        if (format === 'FULL') {
+            const flags = ['C', 'Z', 'I', 'D', 'B', '_', 'V', 'N']
+            return flags.map((flag, index) => this.isFlagSet(index) ? flag : '0').reverse().join('')
+        } else {
+            // Convert the status to binary string and pad it with leading zeros to get 8 bits.
+            const str = this.status.toString(2).padStart(8, '0')
+            return str
+        }
     }
 }
