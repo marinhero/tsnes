@@ -117,4 +117,6 @@ export class Chip6502 implements SixFiveZeroTwo {
             return str
         }
     }
+
+    // What's next now that I can set a flag?
 }
