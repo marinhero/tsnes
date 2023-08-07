@@ -40,6 +40,8 @@ export const NEGATIVE_FLAG = 7 // Negative
 // 64 * 1024
 export const MAX_MEMORY = 64 * 1024
 
+const DEFAULT_START_ADDRESS = 0x8000
+
 // The NES has a specific memory map, which designates different regions of memory for various purposes.
 // For example, certain memory locations store the program code, while others hold data or act as memory-mapped I/O
 // registers for interacting with hardware components.
@@ -115,6 +117,36 @@ export class Chip6502 implements SixFiveZeroTwo {
             // Convert the status to binary string and pad it with leading zeros to get 8 bits.
             const str = this.status.toString(2).padStart(8, '0')
             return str
+        }
+    }
+
+    load(path: string) {
+        this.logger.log('LOADING')
+        const buffer = Deno.readFileSync(path)
+
+        for (let i = 0; i < buffer.length; i++) {
+            console.log('HERE')
+            this.memory[DEFAULT_START_ADDRESS + i] = buffer[i]
+        }
+    }
+
+    execute(opcode: Byte) {
+        // TODO: Implement this.
+        switch(opcode) {
+            case 0xEA: // NOP
+                this.programCounter += 1
+                break
+
+            case 0xA9: // LDA Immediate Mode
+                // if N is set, set MSB
+                // if Z is set, accum is zero. Clear otherwise.
+                break
+
+            case 0xA5: // LDA Zero Page Mode
+                break
+
+            default:
+                throw Error('Undefined instruction')
         }
     }
 
