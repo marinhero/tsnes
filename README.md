@@ -8,3 +8,8 @@ References:
 - http://archive.6502.org/datasheets/rockwell_r650x_r651x.pdf
 - https://www.youtube.com/watch?v=qJgsuQoy9bc
 - https://web.archive.org/web/20191023181630/http://www.obelisk.me.uk/6502/
+- https://www.nesdev.org/wiki/Tools
+
+
+Assembler used is asm6 by written by Loopy. I checked it in to make the setup of this repo simpler.
+

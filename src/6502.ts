@@ -1,4 +1,4 @@
-import { Logger } from "./logger.ts"
+import {Logger} from "./logger.ts"
 
 // 6502 is a little endian system.
 // Little-endian is a byte-ordering architecture used in computer systems, including the 6502 processor.
@@ -115,8 +115,7 @@ export class Chip6502 implements SixFiveZeroTwo {
             return flags.map((flag, index) => this.isFlagSet(index) ? flag : '0').reverse().join('')
         } else {
             // Convert the status to binary string and pad it with leading zeros to get 8 bits.
-            const str = this.status.toString(2).padStart(8, '0')
-            return str
+            return this.status.toString(2).padStart(8, '0')
         }
     }
 
@@ -125,7 +124,6 @@ export class Chip6502 implements SixFiveZeroTwo {
         const buffer = Deno.readFileSync(path)
 
         for (let i = 0; i < buffer.length; i++) {
-            console.log('HERE')
             this.memory[DEFAULT_START_ADDRESS + i] = buffer[i]
         }
     }
