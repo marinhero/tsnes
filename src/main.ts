@@ -6,7 +6,7 @@ l.log('Chime ON')
 
 const main = () => {
   const cpu = new Chip6502()
-  cpu.load('./first.asm')
+  cpu.load('./asm/first.asm')
   l.log(cpu.showStatus())
 }
 
