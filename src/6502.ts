@@ -72,6 +72,8 @@ export interface SixFiveZeroTwo {
     memory: Memory // 64KB
 
     logger: Logger
+
+    cycleCounter: number
 }
 
 export class Chip6502 implements SixFiveZeroTwo {
@@ -83,6 +85,7 @@ export class Chip6502 implements SixFiveZeroTwo {
     status: Byte
     memory: Memory // 64KB
     logger: Logger
+    cycleCounter: number
 
     constructor() {
         this.logger = new Logger()
@@ -93,6 +96,15 @@ export class Chip6502 implements SixFiveZeroTwo {
         this.registerY = 0
         this.status = 1 << 5
         this.memory = new Array(MAX_MEMORY).fill(0)
+        this.cycleCounter = 0
+    }
+
+    incCycle(cycleNumber: number) {
+        this.cycleCounter += cycleNumber
+    }
+
+    incPC(jump: number) {
+        this.programCounter = (this.programCounter + jump) & 0xFFFF
     }
 
     setFlag(bit: number, value: boolean) {
@@ -126,13 +138,17 @@ export class Chip6502 implements SixFiveZeroTwo {
         for (let i = 0; i < buffer.length; i++) {
             this.memory[DEFAULT_START_ADDRESS + i] = buffer[i]
         }
+
+        // Keep coding here.
+        // We need to translate the binary file into instructions that the CPU will understand.
     }
 
     execute(opcode: Byte) {
         // TODO: Implement this.
         switch(opcode) {
             case 0xEA: // NOP
-                this.programCounter += 1
+                this.incPC(1)
+                this.incCycle(2)
                 break
 
             case 0xA9: // LDA Immediate Mode
