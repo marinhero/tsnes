@@ -1,3 +1,4 @@
+import { assertThrows } from "https://deno.land/std@0.224.0/assert/assert_throws.ts"
 import {Logger} from "./logger.ts"
 
 // 6502 is a little endian system.
@@ -138,31 +139,111 @@ export class Chip6502 implements SixFiveZeroTwo {
         for (let i = 0; i < buffer.length; i++) {
             this.memory[DEFAULT_START_ADDRESS + i] = buffer[i]
         }
-
-        // Keep coding here.
-        // We need to translate the binary file into instructions that the CPU will understand.
     }
 
-    execute(opcode: Byte) {
-        // TODO: Implement this.
+    stopExecution() {
+        return false
+    }
+
+    execute() {
+        this.programCounter = DEFAULT_START_ADDRESS
+        while(true) {
+            const opcode = this.memory[this.programCounter]
+            this.executeOpcode(opcode)
+            this.stopExecution()
+        }
+    }
+
+    executeOpcode(opcode: Byte) {
+        const printableOpcode = `0x${opcode.toString(16).padStart(2, '0').toUpperCase()}`
+        this.logger.log(printableOpcode)
+
         switch(opcode) {
+            case 0x00:
+                this.incPC(1)
+                this.incCycle(7)
+                break
+
             case 0xEA: // NOP
                 this.incPC(1)
                 this.incCycle(2)
                 break
 
-            case 0xA9: // LDA Immediate Mode
-                // if N is set, set MSB
-                // if Z is set, accum is zero. Clear otherwise.
+            case 0xA2:
+                this.incPC(1)
+                this.incPC(1)
+                this.incCycle(2)
+                break
+
+            case 0x78:
+                this.incPC(1)
+                this.incCycle(2)
+                break
+
+            case 0x18:
+                this.incPC(1)
+                this.incCycle(2)
+                break
+
+            case 0xD8:
+                this.incPC(1)
+                this.incCycle(2)
+                break
+
+            case 0xF0:
+                this.incPC(1)
+                this.incPC(1)
+                this.incCycle(2)
+                break
+
+            case 0x4C:
+                this.incPC(1)
+                this.incPC(1)
+                this.incPC(1)
+                this.incCycle(3)
+                break
+
+            case 0xC9:
+                this.incPC(1)
+                this.incPC(1)
+                this.incCycle(2)
+                break
+
+            case 0xA9: { // LDA Immediate Mode
+                this.incPC(1)
+                this.accumulator = this.memory[this.programCounter]
+                const setZeroFlag = this.accumulator === 0
+                const bit7set = (this.accumulator & 0x80) !== 0
+
+                this.setFlag(ZERO_FLAG, setZeroFlag)
+                this.setFlag(NEGATIVE_FLAG, bit7set)
+
+                this.incPC(1)
+                this.incCycle(2)
+                break
+            }
+
+            case 0x8D: // STA Absolute Mode
                 break
 
             case 0xA5: // LDA Zero Page Mode
                 break
 
+            case 0x69:
+                this.incPC(1)
+                this.incPC(1)
+                this.incCycle(2)
+                break
+
+            case 0x9A:
+                this.incPC(1)
+                this.incCycle(2)
+                break
+
             default:
+                this.logger.log('Unregistered Opcode')
                 throw Error('Undefined instruction')
         }
     }
 
-    // What's next now that I can set a flag?
 }

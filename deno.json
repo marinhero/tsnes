@@ -2,5 +2,11 @@
   "fmt": {
     "lineWidth": 80,
     "semiColons": false
+  },
+  "tasks": {
+    "dev": "deno run --allow-all src/main.ts",
+    "test": "deno test",
+    "analyze": "deno run --allow-all tools/opcode-analyzer.ts",
+    "fmt": "deno fmt"
   }
 }

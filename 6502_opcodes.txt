@@ -1,0 +1,233 @@
+6502 INSTRUCTION SET REFERENCE
+==============================
+
+LOAD/STORE OPERATIONS
+---------------------
+LDA (Load Accumulator)
+  A9 xx    LDA #$xx     (Immediate)       2 bytes, 2 cycles
+  A5 xx    LDA $xx      (Zero Page)       2 bytes, 3 cycles  
+  B5 xx    LDA $xx,X    (Zero Page,X)     2 bytes, 4 cycles
+  AD xx xx LDA $xxxx    (Absolute)        3 bytes, 4 cycles
+  BD xx xx LDA $xxxx,X  (Absolute,X)      3 bytes, 4+ cycles
+  B9 xx xx LDA $xxxx,Y  (Absolute,Y)      3 bytes, 4+ cycles
+  A1 xx    LDA ($xx,X)  (Indirect,X)      2 bytes, 6 cycles
+  B1 xx    LDA ($xx),Y  (Indirect),Y      2 bytes, 5+ cycles
+
+LDX (Load X Register)
+  A2 xx    LDX #$xx     (Immediate)       2 bytes, 2 cycles
+  A6 xx    LDX $xx      (Zero Page)       2 bytes, 3 cycles
+  B6 xx    LDX $xx,Y    (Zero Page,Y)     2 bytes, 4 cycles
+  AE xx xx LDX $xxxx    (Absolute)        3 bytes, 4 cycles
+  BE xx xx LDX $xxxx,Y  (Absolute,Y)      3 bytes, 4+ cycles
+
+LDY (Load Y Register)  
+  A0 xx    LDY #$xx     (Immediate)       2 bytes, 2 cycles
+  A4 xx    LDY $xx      (Zero Page)       2 bytes, 3 cycles
+  B4 xx    LDY $xx,X    (Zero Page,X)     2 bytes, 4 cycles
+  AC xx xx LDY $xxxx    (Absolute)        3 bytes, 4 cycles
+  BC xx xx LDY $xxxx,X  (Absolute,X)      3 bytes, 4+ cycles
+
+STA (Store Accumulator)
+  85 xx    STA $xx      (Zero Page)       2 bytes, 3 cycles
+  95 xx    STA $xx,X    (Zero Page,X)     2 bytes, 4 cycles
+  8D xx xx STA $xxxx    (Absolute)        3 bytes, 4 cycles
+  9D xx xx STA $xxxx,X  (Absolute,X)      3 bytes, 5 cycles
+  99 xx xx STA $xxxx,Y  (Absolute,Y)      3 bytes, 5 cycles
+  81 xx    STA ($xx,X)  (Indirect,X)      2 bytes, 6 cycles
+  91 xx    STA ($xx),Y  (Indirect),Y      2 bytes, 6 cycles
+
+STX (Store X Register)
+  86 xx    STX $xx      (Zero Page)       2 bytes, 3 cycles
+  96 xx    STX $xx,Y    (Zero Page,Y)     2 bytes, 4 cycles
+  8E xx xx STX $xxxx    (Absolute)        3 bytes, 4 cycles
+
+STY (Store Y Register)
+  84 xx    STY $xx      (Zero Page)       2 bytes, 3 cycles
+  94 xx    STY $xx,X    (Zero Page,X)     2 bytes, 4 cycles
+  8C xx xx STY $xxxx    (Absolute)        3 bytes, 4 cycles
+
+REGISTER TRANSFERS
+------------------
+TAX      AA           Transfer A to X     1 byte,  2 cycles
+TAY      A8           Transfer A to Y     1 byte,  2 cycles  
+TXA      8A           Transfer X to A     1 byte,  2 cycles
+TYA      98           Transfer Y to A     1 byte,  2 cycles
+
+STACK OPERATIONS
+----------------
+TSX      BA           Transfer Stack to X 1 byte,  2 cycles
+TXS      9A           Transfer X to Stack 1 byte,  2 cycles
+PHA      48           Push A on Stack     1 byte,  3 cycles
+PHP      08           Push Status on Stack 1 byte, 3 cycles
+PLA      68           Pull A from Stack   1 byte,  4 cycles
+PLP      28           Pull Status from Stack 1 byte, 4 cycles
+
+LOGICAL OPERATIONS
+------------------
+AND (Logical AND)
+  29 xx    AND #$xx     (Immediate)       2 bytes, 2 cycles
+  25 xx    AND $xx      (Zero Page)       2 bytes, 3 cycles
+  35 xx    AND $xx,X    (Zero Page,X)     2 bytes, 4 cycles
+  2D xx xx AND $xxxx    (Absolute)        3 bytes, 4 cycles
+  3D xx xx AND $xxxx,X  (Absolute,X)      3 bytes, 4+ cycles
+  39 xx xx AND $xxxx,Y  (Absolute,Y)      3 bytes, 4+ cycles
+  21 xx    AND ($xx,X)  (Indirect,X)      2 bytes, 6 cycles
+  31 xx    AND ($xx),Y  (Indirect),Y      2 bytes, 5+ cycles
+
+EOR (Exclusive OR)
+  49 xx    EOR #$xx     (Immediate)       2 bytes, 2 cycles
+  45 xx    EOR $xx      (Zero Page)       2 bytes, 3 cycles
+  55 xx    EOR $xx,X    (Zero Page,X)     2 bytes, 4 cycles
+  4D xx xx EOR $xxxx    (Absolute)        3 bytes, 4 cycles
+  5D xx xx EOR $xxxx,X  (Absolute,X)      3 bytes, 4+ cycles
+  59 xx xx EOR $xxxx,Y  (Absolute,Y)      3 bytes, 4+ cycles
+  41 xx    EOR ($xx,X)  (Indirect,X)      2 bytes, 6 cycles
+  51 xx    EOR ($xx),Y  (Indirect),Y      2 bytes, 5+ cycles
+
+ORA (Logical OR)
+  09 xx    ORA #$xx     (Immediate)       2 bytes, 2 cycles
+  05 xx    ORA $xx      (Zero Page)       2 bytes, 3 cycles
+  15 xx    ORA $xx,X    (Zero Page,X)     2 bytes, 4 cycles
+  0D xx xx ORA $xxxx    (Absolute)        3 bytes, 4 cycles
+  1D xx xx ORA $xxxx,X  (Absolute,X)      3 bytes, 4+ cycles
+  19 xx xx ORA $xxxx,Y  (Absolute,Y)      3 bytes, 4+ cycles
+  01 xx    ORA ($xx,X)  (Indirect,X)      2 bytes, 6 cycles
+  11 xx    ORA ($xx),Y  (Indirect),Y      2 bytes, 5+ cycles
+
+BIT (Bit Test)
+  24 xx    BIT $xx      (Zero Page)       2 bytes, 3 cycles
+  2C xx xx BIT $xxxx    (Absolute)        3 bytes, 4 cycles
+
+ARITHMETIC OPERATIONS
+---------------------
+ADC (Add with Carry)
+  69 xx    ADC #$xx     (Immediate)       2 bytes, 2 cycles
+  65 xx    ADC $xx      (Zero Page)       2 bytes, 3 cycles
+  75 xx    ADC $xx,X    (Zero Page,X)     2 bytes, 4 cycles
+  6D xx xx ADC $xxxx    (Absolute)        3 bytes, 4 cycles
+  7D xx xx ADC $xxxx,X  (Absolute,X)      3 bytes, 4+ cycles
+  79 xx xx ADC $xxxx,Y  (Absolute,Y)      3 bytes, 4+ cycles
+  61 xx    ADC ($xx,X)  (Indirect,X)      2 bytes, 6 cycles
+  71 xx    ADC ($xx),Y  (Indirect),Y      2 bytes, 5+ cycles
+
+SBC (Subtract with Carry)
+  E9 xx    SBC #$xx     (Immediate)       2 bytes, 2 cycles
+  E5 xx    SBC $xx      (Zero Page)       2 bytes, 3 cycles
+  F5 xx    SBC $xx,X    (Zero Page,X)     2 bytes, 4 cycles
+  ED xx xx SBC $xxxx    (Absolute)        3 bytes, 4 cycles
+  FD xx xx SBC $xxxx,X  (Absolute,X)      3 bytes, 4+ cycles
+  F9 xx xx SBC $xxxx,Y  (Absolute,Y)      3 bytes, 4+ cycles
+  E1 xx    SBC ($xx,X)  (Indirect,X)      2 bytes, 6 cycles
+  F1 xx    SBC ($xx),Y  (Indirect),Y      2 bytes, 5+ cycles
+
+CMP (Compare Accumulator)
+  C9 xx    CMP #$xx     (Immediate)       2 bytes, 2 cycles
+  C5 xx    CMP $xx      (Zero Page)       2 bytes, 3 cycles
+  D5 xx    CMP $xx,X    (Zero Page,X)     2 bytes, 4 cycles
+  CD xx xx CMP $xxxx    (Absolute)        3 bytes, 4 cycles
+  DD xx xx CMP $xxxx,X  (Absolute,X)      3 bytes, 4+ cycles
+  D9 xx xx CMP $xxxx,Y  (Absolute,Y)      3 bytes, 4+ cycles
+  C1 xx    CMP ($xx,X)  (Indirect,X)      2 bytes, 6 cycles
+  D1 xx    CMP ($xx),Y  (Indirect),Y      2 bytes, 5+ cycles
+
+CPX (Compare X Register)
+  E0 xx    CPX #$xx     (Immediate)       2 bytes, 2 cycles
+  E4 xx    CPX $xx      (Zero Page)       2 bytes, 3 cycles
+  EC xx xx CPX $xxxx    (Absolute)        3 bytes, 4 cycles
+
+CPY (Compare Y Register)
+  C0 xx    CPY #$xx     (Immediate)       2 bytes, 2 cycles
+  C4 xx    CPY $xx      (Zero Page)       2 bytes, 3 cycles
+  CC xx xx CPY $xxxx    (Absolute)        3 bytes, 4 cycles
+
+INCREMENTS & DECREMENTS
+-----------------------
+INC (Increment Memory)
+  E6 xx    INC $xx      (Zero Page)       2 bytes, 5 cycles
+  F6 xx    INC $xx,X    (Zero Page,X)     2 bytes, 6 cycles
+  EE xx xx INC $xxxx    (Absolute)        3 bytes, 6 cycles
+  FE xx xx INC $xxxx,X  (Absolute,X)      3 bytes, 7 cycles
+
+INX      E8           Increment X         1 byte,  2 cycles
+INY      C8           Increment Y         1 byte,  2 cycles
+
+DEC (Decrement Memory)
+  C6 xx    DEC $xx      (Zero Page)       2 bytes, 5 cycles
+  D6 xx    DEC $xx,X    (Zero Page,X)     2 bytes, 6 cycles
+  CE xx xx DEC $xxxx    (Absolute)        3 bytes, 6 cycles
+  DE xx xx DEC $xxxx,X  (Absolute,X)      3 bytes, 7 cycles
+
+DEX      CA           Decrement X         1 byte,  2 cycles
+DEY      88           Decrement Y         1 byte,  2 cycles
+
+SHIFTS & ROTATES
+----------------
+ASL (Arithmetic Shift Left)
+  0A       ASL A        (Accumulator)     1 byte,  2 cycles
+  06 xx    ASL $xx      (Zero Page)       2 bytes, 5 cycles
+  16 xx    ASL $xx,X    (Zero Page,X)     2 bytes, 6 cycles
+  0E xx xx ASL $xxxx    (Absolute)        3 bytes, 6 cycles
+  1E xx xx ASL $xxxx,X  (Absolute,X)      3 bytes, 7 cycles
+
+LSR (Logical Shift Right)
+  4A       LSR A        (Accumulator)     1 byte,  2 cycles
+  46 xx    LSR $xx      (Zero Page)       2 bytes, 5 cycles
+  56 xx    LSR $xx,X    (Zero Page,X)     2 bytes, 6 cycles
+  4E xx xx LSR $xxxx    (Absolute)        3 bytes, 6 cycles
+  5E xx xx LSR $xxxx,X  (Absolute,X)      3 bytes, 7 cycles
+
+ROL (Rotate Left)
+  2A       ROL A        (Accumulator)     1 byte,  2 cycles
+  26 xx    ROL $xx      (Zero Page)       2 bytes, 5 cycles
+  36 xx    ROL $xx,X    (Zero Page,X)     2 bytes, 6 cycles
+  2E xx xx ROL $xxxx    (Absolute)        3 bytes, 6 cycles
+  3E xx xx ROL $xxxx,X  (Absolute,X)      3 bytes, 7 cycles
+
+ROR (Rotate Right)
+  6A       ROR A        (Accumulator)     1 byte,  2 cycles
+  66 xx    ROR $xx      (Zero Page)       2 bytes, 5 cycles
+  76 xx    ROR $xx,X    (Zero Page,X)     2 bytes, 6 cycles
+  6E xx xx ROR $xxxx    (Absolute)        3 bytes, 6 cycles
+  7E xx xx ROR $xxxx,X  (Absolute,X)      3 bytes, 7 cycles
+
+JUMPS & CALLS
+-------------
+JMP (Jump)
+  4C xx xx JMP $xxxx    (Absolute)        3 bytes, 3 cycles
+  6C xx xx JMP ($xxxx)  (Indirect)        3 bytes, 5 cycles
+
+JSR      20 xx xx     Jump to Subroutine  3 bytes, 6 cycles
+RTS      60           Return from Subroutine 1 byte, 6 cycles
+
+BRANCHES
+--------
+BPL      10 xx        Branch if Positive  2 bytes, 2+ cycles
+BMI      30 xx        Branch if Minus     2 bytes, 2+ cycles
+BVC      50 xx        Branch if Overflow Clear 2 bytes, 2+ cycles
+BVS      70 xx        Branch if Overflow Set 2 bytes, 2+ cycles
+BCC      90 xx        Branch if Carry Clear 2 bytes, 2+ cycles
+BCS      B0 xx        Branch if Carry Set 2 bytes, 2+ cycles
+BNE      D0 xx        Branch if Not Equal 2 bytes, 2+ cycles
+BEQ      F0 xx        Branch if Equal     2 bytes, 2+ cycles
+
+STATUS FLAG CHANGES
+-------------------
+CLC      18           Clear Carry Flag    1 byte,  2 cycles
+SEC      38           Set Carry Flag      1 byte,  2 cycles
+CLI      58           Clear Interrupt Disable 1 byte, 2 cycles
+SEI      78           Set Interrupt Disable 1 byte, 2 cycles
+CLV      B8           Clear Overflow Flag 1 byte,  2 cycles
+CLD      D8           Clear Decimal Mode  1 byte,  2 cycles
+SED      F8           Set Decimal Mode    1 byte,  2 cycles
+
+SYSTEM FUNCTIONS
+----------------
+BRK      00           Break               1 byte,  7 cycles
+NOP      EA           No Operation        1 byte,  2 cycles
+RTI      40           Return from Interrupt 1 byte, 6 cycles
+
+NOTES:
+- xx = 8-bit value/address
+- xxxx = 16-bit address (little-endian: low byte first)
+- + in cycles = add 1 if page boundary crossed
+- Flags affected vary by instruction (see detailed docs)
